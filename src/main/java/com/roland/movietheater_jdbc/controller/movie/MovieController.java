@@ -14,15 +14,12 @@ import java.util.List;
 @RestController
 public class MovieController {
 
-
     private MovieService movieService;
 
     @Autowired
     public MovieController(MovieService movieService) {
-
         this.movieService = movieService;
     }
-
 
     @GetMapping("/admin/movies")
     public ResponseEntity<List<MovieApiResponseForAdmin>> getAllMovieForAdmin() {
@@ -68,10 +65,7 @@ public class MovieController {
         } catch (FailedToUpdateMovieException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
-
-
     }
-
 
     @PostMapping("/admin/movies")
     public ResponseEntity createMovieForCinemaBranch(@RequestBody MovieApiRequestForAdmin request) {
@@ -86,7 +80,6 @@ public class MovieController {
 
     private Movie getMovie(MovieApiRequestForAdmin request) {
         return new Movie().builder()
-
                 .movieName(request.getMovieName())
                 .movieDescription(request.getMovieDescription())
                 .movieDuration(request.getMovieDuration())
@@ -96,17 +89,15 @@ public class MovieController {
                 .movieStars(request.getMovieStars())
                 .movieUrlImage(request.getMovieUrlImage())
                 .movieUrlPosterImage(request.getMovieUrlPosterImage())
+                .movieRating(request.getMovieRating())  // <-- Added movieRating here
                 .build();
-
     }
-
 
     private List<MovieApiResponseForAdmin> buildResponse(List<Movie> movieList) {
         List<MovieApiResponseForAdmin> responseList = new ArrayList<>();
         for (Movie movie : movieList) {
             responseList.add(getMovieApiResponse(movie));
         }
-
         return responseList;
     }
 
@@ -122,7 +113,7 @@ public class MovieController {
                 .movieUrlImage(movie.getMovieUrlImage())
                 .movieUrlPosterImage(movie.getMovieUrlPosterImage())
                 .movieReleaseDate(movie.getMovieReleaseDate())
+                .movieRating(movie.getMovieRating())  // <-- Added movieRating here
                 .build();
-
     }
 }
